@@ -1,0 +1,415 @@
+/* =========================================================
+   AI Tutors — "Modern Scholar" tēma
+   Fraunces (virsraksti) + Hanken Grotesk (teksts)
+   Silts papīra fons, dziļa tinte, priežu zaļš akcents
+   ========================================================= */
+
+:root {
+    --paper:        #F6F2E9;
+    --paper-2:      #FFFDF8;
+    --paper-3:      #EFE9DB;
+    --ink:          #1F1D18;
+    --ink-soft:     #6B655A;
+    --ink-faint:    #9A9384;
+    --accent:       #2D6A4F;
+    --accent-bright:#40916C;
+    --accent-soft:  #DCEAE1;
+    --accent-faint: #EDF4EF;
+    --line:         #E2DBCB;
+    --line-strong:  #D2C9B5;
+    --warn:         #B45309;
+    --danger:       #B23A3A;
+    --radius:       14px;
+    --radius-sm:    9px;
+    --shadow-sm:    0 1px 2px rgba(31,29,24,.05), 0 2px 8px rgba(31,29,24,.04);
+    --shadow-md:    0 4px 14px rgba(31,29,24,.08), 0 12px 36px rgba(31,29,24,.06);
+}
+
+* , *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+    font-family: 'Hanken Grotesk', system-ui, sans-serif;
+    background-color: var(--paper);
+    /* smalka papīra tekstūra */
+    background-image:
+        radial-gradient(var(--line) 0.5px, transparent 0.5px),
+        radial-gradient(var(--line) 0.5px, var(--paper) 0.5px);
+    background-size: 28px 28px;
+    background-position: 0 0, 14px 14px;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.55;
+}
+
+h1, h2, h3, .display {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent-bright); }
+
+button { font-family: inherit; cursor: pointer; }
+
+/* ---------- Pogas ---------- */
+.btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 12px 22px;
+    background: var(--accent); color: #fff;
+    border: none; border-radius: var(--radius-sm);
+    font-size: 15px; font-weight: 600;
+    transition: transform .15s, filter .15s, box-shadow .15s;
+    box-shadow: var(--shadow-sm);
+}
+.btn:hover { filter: brightness(1.07); transform: translateY(-1px); }
+.btn:active { transform: translateY(0); }
+.btn:disabled { opacity: .5; cursor: not-allowed; transform: none; filter: none; }
+
+.btn-ghost {
+    background: transparent; color: var(--ink-soft);
+    border: 1px solid var(--line-strong); box-shadow: none;
+}
+.btn-ghost:hover { background: var(--paper-3); color: var(--ink); filter: none; }
+
+.btn-block { width: 100%; }
+
+/* ---------- Ievades lauki ---------- */
+.field { margin-bottom: 18px; }
+.field label {
+    display: block; font-size: 13px; font-weight: 600;
+    color: var(--ink-soft); margin-bottom: 7px;
+    letter-spacing: .01em;
+}
+input[type=text], input[type=password], select {
+    width: 100%; padding: 13px 15px;
+    background: var(--paper-2);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+    font-family: inherit; font-size: 15px; color: var(--ink);
+    outline: none; transition: border-color .15s, box-shadow .15s;
+}
+input:focus, select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-faint);
+}
+input::placeholder { color: var(--ink-faint); }
+
+/* =========================================================
+   AUTORIZĀCIJAS LAPAS (login / register)
+   ========================================================= */
+.auth-wrap {
+    min-height: 100vh; display: grid; place-items: center; padding: 24px;
+}
+.auth-card {
+    width: 100%; max-width: 430px;
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 40px 38px;
+    box-shadow: var(--shadow-md);
+    animation: rise .5s cubic-bezier(.2,.7,.3,1) both;
+}
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+.brand { display: flex; align-items: center; gap: 12px; margin-bottom: 26px; }
+.brand-mark {
+    width: 46px; height: 46px; border-radius: 13px;
+    background: var(--accent); color: #fff;
+    display: grid; place-items: center; flex-shrink: 0;
+    font-family: 'Fraunces', serif; font-weight: 600; font-size: 24px;
+    box-shadow: var(--shadow-sm);
+}
+.brand-name { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 600; }
+.brand-tag { font-size: 13px; color: var(--ink-faint); }
+
+.auth-card h1 { font-size: 28px; margin-bottom: 6px; }
+.auth-card .sub { color: var(--ink-soft); font-size: 15px; margin-bottom: 28px; }
+
+.role-toggle { display: flex; gap: 10px; }
+.role-opt {
+    flex: 1; text-align: center; padding: 12px;
+    border: 1px solid var(--line-strong); border-radius: var(--radius-sm);
+    background: var(--paper-2); color: var(--ink-soft);
+    font-size: 14px; font-weight: 600; transition: all .15s;
+}
+.role-opt:hover { border-color: var(--accent-bright); }
+.role-opt.active {
+    background: var(--accent-faint); border-color: var(--accent); color: var(--accent);
+}
+.role-opt small { display: block; font-weight: 400; font-size: 12px; color: var(--ink-faint); margin-top: 2px; }
+
+.alert {
+    background: #FBEDED; border: 1px solid #EBC9C9; color: var(--danger);
+    padding: 11px 14px; border-radius: var(--radius-sm);
+    font-size: 14px; margin-bottom: 18px; display: none;
+}
+.alert.show { display: block; animation: rise .3s both; }
+
+.auth-foot { text-align: center; margin-top: 22px; font-size: 14px; color: var(--ink-soft); }
+
+/* =========================================================
+   GALVENĀ APP LAPA (sidebar + chat)
+   ========================================================= */
+.layout { display: flex; height: 100vh; overflow: hidden; }
+
+/* ---------- Sānjosla ---------- */
+.sidebar {
+    width: 290px; flex-shrink: 0;
+    background: var(--paper-2);
+    border-right: 1px solid var(--line);
+    display: flex; flex-direction: column;
+}
+.sidebar-head {
+    padding: 20px 18px 16px;
+    border-bottom: 1px solid var(--line);
+}
+.sidebar-head .brand { margin-bottom: 16px; }
+.sidebar-head .brand-mark { width: 38px; height: 38px; font-size: 20px; border-radius: 11px; }
+.sidebar-head .brand-name { font-size: 18px; }
+
+.new-chat-btn {
+    width: 100%; padding: 12px;
+    background: var(--accent); color: #fff;
+    border: none; border-radius: var(--radius-sm);
+    font-size: 14px; font-weight: 600;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    transition: filter .15s, transform .15s; box-shadow: var(--shadow-sm);
+}
+.new-chat-btn:hover { filter: brightness(1.07); transform: translateY(-1px); }
+
+.conv-list { flex: 1; overflow-y: auto; padding: 12px 10px; }
+.conv-list-label {
+    font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--ink-faint); padding: 6px 10px 10px;
+}
+.conv-item {
+    position: relative;
+    padding: 11px 12px; margin-bottom: 3px;
+    border-radius: var(--radius-sm);
+    cursor: pointer; transition: background .12s;
+    display: flex; flex-direction: column; gap: 2px;
+}
+.conv-item:hover { background: var(--paper-3); }
+.conv-item.active { background: var(--accent-faint); }
+.conv-item.active .conv-title { color: var(--accent); font-weight: 600; }
+.conv-title {
+    font-size: 14px; color: var(--ink); font-weight: 500;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    padding-right: 22px;
+}
+.conv-meta { font-size: 12px; color: var(--ink-faint); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.conv-del {
+    position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+    width: 24px; height: 24px; border: none; background: transparent;
+    color: var(--ink-faint); border-radius: 6px; display: none;
+    align-items: center; justify-content: center;
+}
+.conv-item:hover .conv-del { display: flex; }
+.conv-del:hover { background: #FBEDED; color: var(--danger); }
+
+.conv-empty { padding: 20px 12px; color: var(--ink-faint); font-size: 13px; text-align: center; line-height: 1.5; }
+
+.sidebar-foot {
+    padding: 14px 16px; border-top: 1px solid var(--line);
+    display: flex; align-items: center; gap: 10px;
+}
+.avatar {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: var(--accent-soft); color: var(--accent);
+    display: grid; place-items: center; font-weight: 700; font-size: 14px; flex-shrink: 0;
+}
+.user-meta { flex: 1; min-width: 0; }
+.user-name { font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.user-role { font-size: 12px; color: var(--ink-faint); }
+.logout-btn {
+    border: none; background: transparent; color: var(--ink-faint);
+    width: 32px; height: 32px; border-radius: 7px; display: grid; place-items: center;
+    transition: all .12s;
+}
+.logout-btn:hover { background: var(--paper-3); color: var(--danger); }
+
+/* ---------- Galvenais čata laukums ---------- */
+.main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+
+.main-head {
+    padding: 16px 28px; border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; gap: 12px; background: var(--paper-2);
+    min-height: 64px;
+}
+.material-chip {
+    display: inline-flex; align-items: center; gap: 9px;
+    padding: 7px 14px; background: var(--accent-faint);
+    border: 1px solid var(--accent-soft); border-radius: 100px;
+    font-size: 13px; font-weight: 600; color: var(--accent);
+}
+.material-chip .subj { color: var(--ink-faint); font-weight: 400; }
+.head-hint { color: var(--ink-faint); font-size: 14px; }
+
+/* ziņas */
+.messages {
+    flex: 1; overflow-y: auto; padding: 30px 0;
+    display: flex; flex-direction: column; gap: 22px;
+}
+.messages-inner { width: 100%; max-width: 760px; margin: 0 auto; padding: 0 28px;
+    display: flex; flex-direction: column; gap: 22px; }
+
+.msg { display: flex; gap: 14px; animation: rise .3s both; }
+.msg-avatar {
+    width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0;
+    display: grid; place-items: center; font-size: 14px; font-weight: 700;
+    font-family: 'Fraunces', serif;
+}
+.msg.ai .msg-avatar { background: var(--accent); color: #fff; }
+.msg.user .msg-avatar { background: var(--paper-3); color: var(--ink-soft); }
+.msg-body { padding-top: 4px; }
+.msg-name { font-size: 13px; font-weight: 700; margin-bottom: 4px; color: var(--ink-soft); }
+.msg.ai .msg-name { color: var(--accent); }
+.msg-text { font-size: 15.5px; line-height: 1.65; color: var(--ink); }
+.msg-text strong { font-weight: 700; }
+.msg-text em { font-style: italic; }
+.msg-text code {
+    background: var(--paper-3); padding: 1px 6px; border-radius: 5px;
+    font-family: ui-monospace, monospace; font-size: 14px;
+}
+
+/* rakstīšanas indikators */
+.typing { display: none; gap: 6px; padding: 8px 0; }
+.typing.show { display: flex; }
+.typing span {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--ink-faint);
+    animation: bounce 1.3s infinite;
+}
+.typing span:nth-child(2) { animation-delay: .18s; }
+.typing span:nth-child(3) { animation-delay: .36s; }
+@keyframes bounce { 0%,60%,100% { transform: translateY(0); opacity: .5; } 30% { transform: translateY(-6px); opacity: 1; } }
+
+/* tukšais stāvoklis */
+.empty-state {
+    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 40px; gap: 8px;
+}
+.empty-state .es-mark {
+    width: 72px; height: 72px; border-radius: 20px; margin-bottom: 14px;
+    background: var(--accent-faint); border: 1px solid var(--accent-soft);
+    display: grid; place-items: center;
+}
+.empty-state h2 { font-size: 26px; }
+.empty-state p { color: var(--ink-soft); max-width: 420px; }
+
+/* ievades josla */
+.composer { padding: 16px 28px 24px; border-top: 1px solid var(--line); background: var(--paper-2); }
+.composer-inner {
+    max-width: 760px; margin: 0 auto;
+    display: flex; gap: 10px; align-items: flex-end;
+    background: var(--paper-2); border: 1px solid var(--line-strong);
+    border-radius: var(--radius); padding: 8px 8px 8px 16px;
+    transition: border-color .15s, box-shadow .15s;
+}
+.composer-inner:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-faint); }
+.composer textarea {
+    flex: 1; border: none; outline: none; resize: none; background: transparent;
+    font-family: inherit; font-size: 15.5px; color: var(--ink);
+    line-height: 1.5; max-height: 160px; padding: 8px 0;
+}
+.composer textarea::placeholder { color: var(--ink-faint); }
+.send-btn {
+    width: 42px; height: 42px; border: none; border-radius: 10px; flex-shrink: 0;
+    background: var(--accent); color: #fff; display: grid; place-items: center;
+    transition: filter .15s, transform .15s;
+}
+.send-btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
+.send-btn:disabled { opacity: .4; cursor: not-allowed; transform: none; }
+.composer-note { max-width: 760px; margin: 8px auto 0; text-align: center; font-size: 12px; color: var(--ink-faint); }
+
+/* =========================================================
+   MODĀLAIS LOGS (materiāla izvēle + augšupielāde)
+   ========================================================= */
+.modal-overlay {
+    position: fixed; inset: 0; background: rgba(31,29,24,.45);
+    backdrop-filter: blur(3px); display: none; place-items: center; z-index: 50; padding: 24px;
+}
+.modal-overlay.show { display: grid; animation: fade .2s both; }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+
+.modal {
+    width: 100%; max-width: 560px; max-height: 85vh; overflow-y: auto;
+    background: var(--paper-2); border: 1px solid var(--line);
+    border-radius: var(--radius); box-shadow: var(--shadow-md);
+    animation: rise .3s both;
+}
+.modal-head { padding: 24px 26px 0; }
+.modal-head h2 { font-size: 23px; margin-bottom: 4px; }
+.modal-head p { color: var(--ink-soft); font-size: 14px; }
+.modal-body { padding: 20px 26px 26px; }
+
+.material-grid { display: flex; flex-direction: column; gap: 9px; margin-bottom: 8px; }
+.material-card {
+    display: flex; align-items: center; gap: 13px;
+    padding: 14px 16px; border: 1px solid var(--line-strong);
+    border-radius: var(--radius-sm); cursor: pointer;
+    transition: border-color .12s, background .12s, transform .12s; background: var(--paper-2);
+}
+.material-card:hover { border-color: var(--accent); background: var(--accent-faint); transform: translateX(2px); }
+.material-card .mc-icon {
+    width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0;
+    background: var(--accent-faint); color: var(--accent);
+    display: grid; place-items: center;
+}
+.material-card .mc-body { flex: 1; min-width: 0; }
+.material-card .mc-title { font-weight: 600; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.material-card .mc-sub { font-size: 13px; color: var(--ink-faint); }
+.badge {
+    font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 100px;
+    background: var(--accent-soft); color: var(--accent); letter-spacing: .02em;
+}
+.badge.mine { background: var(--paper-3); color: var(--ink-soft); }
+
+.material-card.add { border-style: dashed; color: var(--accent); justify-content: center; font-weight: 600; }
+.material-card.add:hover { transform: none; }
+.material-card.plain { border-style: dashed; }
+
+.divider { display: flex; align-items: center; gap: 12px; margin: 18px 0; color: var(--ink-faint); font-size: 12px; }
+.divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+
+.upload-form { display: none; }
+.upload-form.show { display: block; animation: rise .25s both; }
+.checkbox-row { display: flex; align-items: center; gap: 9px; margin-bottom: 18px; font-size: 14px; color: var(--ink-soft); }
+.checkbox-row input { width: auto; }
+
+.file-drop {
+    border: 1.5px dashed var(--line-strong); border-radius: var(--radius-sm);
+    padding: 22px; text-align: center; color: var(--ink-faint); font-size: 14px;
+    cursor: pointer; transition: all .15s; margin-bottom: 18px;
+}
+.file-drop:hover, .file-drop.over { border-color: var(--accent); background: var(--accent-faint); color: var(--accent); }
+.file-drop.has-file { border-color: var(--accent); background: var(--accent-faint); color: var(--accent); font-weight: 600; }
+
+.modal-close {
+    position: absolute; top: 18px; right: 18px;
+    width: 32px; height: 32px; border: none; background: var(--paper-3);
+    border-radius: 8px; color: var(--ink-soft); display: grid; place-items: center;
+}
+.modal-close:hover { background: var(--line); }
+.modal { position: relative; }
+
+/* ---------- Ritjosla ---------- */
+::-webkit-scrollbar { width: 9px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 5px; border: 2px solid var(--paper-2); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-faint); }
+
+/* ---------- Responsīvs ---------- */
+@media (max-width: 760px) {
+    .sidebar { position: fixed; left: 0; top: 0; bottom: 0; z-index: 40; transform: translateX(-100%); transition: transform .25s; box-shadow: var(--shadow-md); }
+    .sidebar.open { transform: translateX(0); }
+    .menu-toggle { display: grid !important; }
+    .messages-inner, .composer-inner, .composer-note { padding-left: 18px; padding-right: 18px; }
+}
+.menu-toggle {
+    display: none; width: 38px; height: 38px; border: 1px solid var(--line-strong);
+    background: var(--paper-2); border-radius: 9px; place-items: center; color: var(--ink-soft);
+}

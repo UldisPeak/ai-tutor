@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Pieslēgties · AI Tutors{% endblock %}
+{% block body %}
+<div class="auth-wrap">
+    <div class="auth-card">
+        <div class="brand">
+            <div class="brand-mark">T</div>
+            <div>
+                <div class="brand-name">AI Tutors</div>
+                <div class="brand-tag">Mācies, nevis kopē</div>
+            </div>
+        </div>
+
+        <h1>Sveiks atpakaļ</h1>
+        <p class="sub">Pieslēdzies, lai turpinātu mācīties.</p>
+
+        <div class="alert" id="alert"></div>
+
+        <div class="field">
+            <label for="username">Lietotājvārds</label>
+            <input type="text" id="username" placeholder="tavs_vards" autocomplete="username">
+        </div>
+        <div class="field">
+            <label for="password">Parole</label>
+            <input type="password" id="password" placeholder="••••••••" autocomplete="current-password">
+        </div>
+
+        <button class="btn btn-block" id="submit">Pieslēgties</button>
+
+        <div class="auth-foot">
+            Nav konta? <a href="{{ url_for('register_page') }}">Izveidot kontu</a>
+        </div>
+    </div>
+</div>
+
+<script>
+const alertBox = document.getElementById('alert');
+function showError(msg) { alertBox.textContent = msg; alertBox.classList.add('show'); }
+
+async function login() {
+    const btn = document.getElementById('submit');
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value;
+    if (!username || !password) { showError('Aizpildi abus laukus.'); return; }
+
+    btn.disabled = true; btn.textContent = 'Pieslēdzas…';
+    alertBox.classList.remove('show');
+    try {
+        const res = await fetch('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password })
+        });
+        const data = await res.json();
+        if (data.ok) { window.location.href = data.redirect; }
+        else { showError(data.error || 'Kļūda.'); btn.disabled = false; btn.textContent = 'Pieslēgties'; }
+    } catch (e) {
+        showError('Savienojuma kļūda.'); btn.disabled = false; btn.textContent = 'Pieslēgties';
+    }
+}
+
+document.getElementById('submit').addEventListener('click', login);
+['username','password'].forEach(id =>
+    document.getElementById(id).addEventListener('keydown', e => { if (e.key === 'Enter') login(); })
+);
+</script>
+{% endblock %}
