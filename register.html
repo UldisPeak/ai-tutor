@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block title %}Izveidot kontu · AI Tutors{% endblock %}
+{% block body %}
+<div class="auth-wrap">
+    <div class="auth-card">
+        <div class="brand">
+            <div class="brand-mark">T</div>
+            <div>
+                <div class="brand-name">AI Tutors</div>
+                <div class="brand-tag">Mācies, nevis kopē</div>
+            </div>
+        </div>
+
+        <h1>Izveido kontu</h1>
+        <p class="sub">Dažas sekundes — un vari sākt mācīties.</p>
+
+        <div class="alert" id="alert"></div>
+
+        <div class="field">
+            <label>Es esmu</label>
+            <div class="role-toggle">
+                <div class="role-opt active" data-role="student">
+                    Students
+                    <small>Mācos un uzdodu jautājumus</small>
+                </div>
+                <div class="role-opt" data-role="teacher">
+                    Pasniedzējs
+                    <small>Pievienoju materiālus visiem</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="username">Lietotājvārds</label>
+            <input type="text" id="username" placeholder="tavs_vards" autocomplete="username">
+        </div>
+        <div class="field">
+            <label for="password">Parole</label>
+            <input type="password" id="password" placeholder="vismaz 4 simboli" autocomplete="new-password">
+        </div>
+
+        <button class="btn btn-block" id="submit">Izveidot kontu</button>
+
+        <div class="auth-foot">
+            Jau ir konts? <a href="{{ url_for('login_page') }}">Pieslēgties</a>
+        </div>
+    </div>
+</div>
+
+<script>
+let selectedRole = 'student';
+const alertBox = document.getElementById('alert');
+function showError(msg) { alertBox.textContent = msg; alertBox.classList.add('show'); }
+
+document.querySelectorAll('.role-opt').forEach(opt => {
+    opt.addEventListener('click', () => {
+        document.querySelectorAll('.role-opt').forEach(o => o.classList.remove('active'));
+        opt.classList.add('active');
+        selectedRole = opt.dataset.role;
+    });
+});
+
+async function register() {
+    const btn = document.getElementById('submit');
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value;
+    if (!username || !password) { showError('Aizpildi visus laukus.'); return; }
+
+    btn.disabled = true; btn.textContent = 'Veido kontu…';
+    alertBox.classList.remove('show');
+    try {
+        const res = await fetch('/api/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password, role: selectedRole })
+        });
+        const data = await res.json();
+        if (data.ok) { window.location.href = data.redirect; }
+        else { showError(data.error || 'Kļūda.'); btn.disabled = false; btn.textContent = 'Izveidot kontu'; }
+    } catch (e) {
+        showError('Savienojuma kļūda.'); btn.disabled = false; btn.textContent = 'Izveidot kontu';
+    }
+}
+
+document.getElementById('submit').addEventListener('click', register);
+['username','password'].forEach(id =>
+    document.getElementById(id).addEventListener('keydown', e => { if (e.key === 'Enter') register(); })
+);
+</script>
+{% endblock %}

@@ -1,0 +1,17 @@
+services:
+  ai-tutor:
+    build: .
+    container_name: ai-tutor
+    restart: unless-stopped
+    ports:
+      - "5050:5000"          # ārējais:iekšējais — atver http://servera-ip:5050
+    environment:
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+      - MODEL=${MODEL:-anthropic/claude-3.5-sonnet}
+      - SECRET_KEY=${SECRET_KEY:-nomaini-so-uz-garu-nejausu-virkni}
+      - DB_PATH=/app/data/tutor.db
+    volumes:
+      - tutor-data:/app/data   # datubāze saglabājas starp restartiem
+
+volumes:
+  tutor-data:
